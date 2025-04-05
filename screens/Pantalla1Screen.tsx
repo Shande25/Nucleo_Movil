@@ -59,6 +59,11 @@ export default function ScoreScreen() {
       });
   }
 
+  function promedioPuntaje() {
+    return totalPuntaje / (videojuegos.length || 1);
+  }
+
+
   function cargarTotalGlobal() {
     const usuariosRef = ref(db, 'usuarios');
     get(usuariosRef)
@@ -84,24 +89,27 @@ export default function ScoreScreen() {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
-
+  
     if (isNaN(parseInt(edad)) || parseInt(edad) <= 0) {
       Alert.alert('Error', 'La edad debe ser un número válido.');
       return;
     }
-
+  
     if (isNaN(parseInt(puntaje)) || parseInt(puntaje) < 0) {
       Alert.alert('Error', 'El puntaje debe ser un número válido.');
       return;
     }
-
+  
+    const fecha = new Date(); 
+    const fechaFormateada = fecha.toISOString().split('T')[0]; 
+  
     const usuarioRef = ref(db, 'usuarios/' + id + '/puntajes');
     push(usuarioRef, {
       nombre,
       videojuego: selectedGame.titulo,
       edad: parseInt(edad),
       puntaje: parseInt(puntaje),
-      fecha: Date.now(),
+      fecha: fechaFormateada, 
     })
       .then(() => {
         Alert.alert('Éxito', 'Puntaje guardado correctamente.');
@@ -118,6 +126,7 @@ export default function ScoreScreen() {
         Alert.alert('Error', 'No se pudo guardar el puntaje: ' + error.message);
       });
   }
+  
 
   function manejarBusqueda(text: string) {
     setBusqueda(text);
@@ -202,6 +211,7 @@ export default function ScoreScreen() {
 
       <Text style={styles.totalText}>Total Puntaje Usuario: {totalPuntaje}</Text>
       <Text style={styles.totalText}>Total Puntaje Global: {totalGlobal}</Text>
+      <Text style={styles.totalText}>Promedio Puntaje: {promedioPuntaje()}</Text>
     </ScrollView>
   );
 }

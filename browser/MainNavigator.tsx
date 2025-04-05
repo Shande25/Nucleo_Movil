@@ -20,8 +20,8 @@ function MyStack() {
 
 function MyDrawer() {
   return <Drawer.Navigator>
-    <Drawer.Screen name="Registro" component={Pantalla1Screen} />
-    <Drawer.Screen name="Puntaje" component={Pantalla2Screen} />
+    <Drawer.Screen name="Pantalla 1" component={Pantalla1Screen} />
+    <Drawer.Screen name="Pantalla 2" component={Pantalla2Screen} />
   </Drawer.Navigator>;
 }
 
